@@ -1,0 +1,22 @@
+{
+  "name": "knowscap",
+  "version": "1.0.0",
+  "description": "App for learning the capitals of the countries.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inikonorov/knowscap.git"
+  },
+  "keywords": [
+    "capitals"
+  ],
+  "author": "Ivan Nikonorov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/inikonorov/knowscap/issues"
+  },
+  "homepage": "https://github.com/inikonorov/knowscap#readme"
+}
