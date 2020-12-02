@@ -6,7 +6,8 @@
     "extends": [
         "plugin:react/recommended",
         "airbnb",
-        "prettier" // this config will override above configs, is it okay for me? what about airbnb rules?
+        "prettier", // this config will override above configs, is it okay for me? what about airbnb rules?
+        "prettier/react" // don't know why it here...
     ],
     "parserOptions": {
         "ecmaFeatures": {
