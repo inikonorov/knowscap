@@ -1,5 +1,17 @@
+# js dependencies
 node_modules
+
+# parcel cache
 .cache
+
+# parcel build
 dist
+
+# eslint cache
 .eslintcache
+
+# folder settings (mac)
 .DS_Store
+
+# environment variables
+.env
