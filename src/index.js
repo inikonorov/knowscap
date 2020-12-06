@@ -2,9 +2,38 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import SimpleMap from './components/unique/Map';
+import Settings from './components/unique/Settings';
 import './style.less';
 
-ReactDOM.render(
-	<SimpleMap center={{ lat: 59.95, lng: 30.33 }} zoom={11} />,
-	document.getElementById('app')
-);
+class App extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.onMapLoad = this.onMapLoad.bind(this);
+
+		this.state = {
+			isMapLoading: true,
+		};
+	}
+
+	onMapLoad() {
+		this.setState({ isMapLoading: false });
+	}
+
+	render() {
+		const { isMapLoading } = this.state;
+
+		return (
+			<>
+				<SimpleMap
+					center={{ lat: 59.95, lng: 30.33 }}
+					zoom={11}
+					onLoad={this.onMapLoad}
+				/>
+				<Settings isLoading={isMapLoading} />
+			</>
+		);
+	}
+}
+
+ReactDOM.render(<App />, document.getElementById('app'));

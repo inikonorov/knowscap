@@ -2,17 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import GoogleMapReact from 'google-map-react';
 
-const SimpleMap = ({ center, zoom }) => (
-	<GoogleMapReact
-		bootstrapURLKeys={{ key: process.env.GMAPS_API_KEY }}
-		defaultCenter={center}
-		defaultZoom={zoom}
-	/>
-);
+const Map = (props) => {
+	const { center, zoom } = props;
 
-SimpleMap.propTypes = {
-	center: PropTypes.shape({}).isRequired,
-	zoom: PropTypes.number.isRequired,
+	return (
+		<GoogleMapReact
+			bootstrapURLKeys={{ key: process.env.GMAPS_API_KEY }}
+			defaultCenter={center}
+			defaultZoom={zoom}
+			onTilesLoaded={props.onLoad}
+		/>
+	);
 };
 
-export default SimpleMap;
+Map.propTypes = {
+	center: PropTypes.shape({}).isRequired,
+	zoom: PropTypes.number.isRequired,
+	onLoad: PropTypes.func.isRequired,
+};
+
+export default Map;
