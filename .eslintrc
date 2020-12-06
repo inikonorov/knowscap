@@ -9,6 +9,7 @@
         "prettier", // this config will override above configs, is it okay for me? what about airbnb rules?
         "prettier/react" // don't know why it here...
     ],
+    "parser": "@babel/eslint-parser",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -18,7 +19,8 @@
     },
     "plugins": [
         "react",
-        "prettier"
+        "prettier",
+        "@babel"
     ],
     "rules": {
         "prettier/prettier": "error",
