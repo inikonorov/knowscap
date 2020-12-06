@@ -32,7 +32,7 @@ class Settings extends React.Component {
 
 		return (
 			<div className="settings">
-				<label>
+				<label className="settings__region-select">
 					Choose region
 					<select value={region} onChange={this.onChooseRegion}>
 						{REGIONS.map((REGION) => (
@@ -42,7 +42,9 @@ class Settings extends React.Component {
 						))}
 					</select>
 				</label>
-				<button type="button">Let&#39;s go!</button>
+				<button className="settings__start-button" type="button">
+					Let&#39;s go!
+				</button>
 			</div>
 		);
 	}
