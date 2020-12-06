@@ -17,7 +17,7 @@ class App extends React.Component {
 	}
 
 	onMapLoad() {
-		this.setState({ isMapLoading: false });
+		setTimeout(() => this.setState({ isMapLoading: false }), 1500);
 	}
 
 	render() {

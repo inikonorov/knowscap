@@ -5,6 +5,8 @@ import REGIONS from './constants';
 
 import './style.less';
 
+import Loader from '../../shared/Loader';
+
 class Settings extends React.Component {
 	constructor(props) {
 		super(props);
@@ -25,7 +27,7 @@ class Settings extends React.Component {
 		const { region } = this.state;
 
 		if (isLoading) {
-			return null;
+			return <Loader />;
 		}
 
 		return (
