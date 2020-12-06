@@ -9,7 +9,6 @@
         "prettier", // this config will override above configs, is it okay for me? what about airbnb rules?
         "prettier/react" // don't know why it here...
     ],
-    "parser": "@babel/eslint-parser",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -19,16 +18,20 @@
     },
     "plugins": [
         "react",
-        "prettier",
-        "@babel"
+        "prettier"
     ],
     "rules": {
         "prettier/prettier": "error",
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/jsx-filename-extension": [1, {
+            "extensions": [".js", ".jsx"]
+        }],
         "jsx-a11y/label-has-associated-control": ["error", {
             "required": {
                 "some": ["nesting", "id"]
             }
+        }],
+        "react/destructuring-assignment": [1, "always", {
+            "ignoreClassFields": true
         }]
     }
 }
