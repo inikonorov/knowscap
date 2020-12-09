@@ -25,7 +25,9 @@
 		"google-map-react": "^2.1.9",
 		"prop-types": "^15.7.2",
 		"react": "^17.0.1",
-		"react-dom": "^17.0.1"
+		"react-content-loader": "^5.1.4",
+		"react-dom": "^17.0.1",
+		"react-fade-in": "^1.1.1"
 	},
 	"devDependencies": {
 		"autoprefixer": "^9.0.0",

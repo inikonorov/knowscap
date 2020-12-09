@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import FadeIn from 'react-fade-in';
 
 import REGIONS from './constants';
 
 import './style.less';
 
-import Loader from '../../shared/Loader';
+import Placeholder from './Placeholder';
 
 class Settings extends React.Component {
 	constructor(props) {
@@ -27,25 +28,27 @@ class Settings extends React.Component {
 		const { region } = this.state;
 
 		if (isLoading) {
-			return <Loader />;
+			return <Placeholder />;
 		}
 
 		return (
-			<div className="settings">
-				<label className="settings__region-select">
-					Choose region
-					<select value={region} onChange={this.onChooseRegion}>
-						{REGIONS.map((REGION) => (
-							<option key={REGION} value={REGION}>
-								{REGION}
-							</option>
-						))}
-					</select>
-				</label>
-				<button className="settings__start-button" type="button">
-					Let&#39;s go!
-				</button>
-			</div>
+			<FadeIn>
+				<div className="settings">
+					<label className="settings__region-select">
+						Choose region
+						<select value={region} onChange={this.onChooseRegion}>
+							{REGIONS.map((REGION) => (
+								<option key={REGION} value={REGION}>
+									{REGION}
+								</option>
+							))}
+						</select>
+					</label>
+					<button className="settings__start-button" type="button">
+						Let&#39;s go!
+					</button>
+				</div>
+			</FadeIn>
 		);
 	}
 }
