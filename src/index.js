@@ -27,7 +27,7 @@ class App extends React.Component {
 			<>
 				<SimpleMap
 					center={{ lat: 59.95, lng: 30.33 }}
-					zoom={11}
+					zoom={5}
 					onLoad={this.onMapLoad}
 				/>
 				<Settings isLoading={isMapLoading} />
