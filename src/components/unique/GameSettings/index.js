@@ -13,6 +13,7 @@ class Settings extends React.Component {
 		super(props);
 
 		this.onChooseRegion = this.onChooseRegion.bind(this);
+		this.onLaunchGame = this.onLaunchGame.bind(this);
 
 		this.state = {
 			region: '',
@@ -21,6 +22,15 @@ class Settings extends React.Component {
 
 	onChooseRegion({ target }) {
 		this.setState({ region: target.value });
+	}
+
+	onLaunchGame() {
+		const { region } = this.state;
+
+		fetch(`https://restcountries.eu/rest/v2/region/${region}`)
+			.then((response) => response.json())
+			.then(this.props.setCountries)
+			.catch(() => {});
 	}
 
 	render() {
@@ -44,7 +54,11 @@ class Settings extends React.Component {
 							))}
 						</select>
 					</label>
-					<button className="settings__start-button" type="button">
+					<button
+						className="settings__start-button"
+						type="button"
+						onClick={this.onLaunchGame}
+					>
 						Let&#39;s go!
 					</button>
 				</div>
@@ -55,6 +69,7 @@ class Settings extends React.Component {
 
 Settings.propTypes = {
 	isLoading: PropTypes.bool.isRequired,
+	setCountries: PropTypes.func.isRequired,
 };
 
 export default Settings;
