@@ -92,7 +92,7 @@ class GameInterface extends React.Component {
 }
 
 GameInterface.propTypes = {
-	countries: PropTypes.shape([]).isRequired,
+	countries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 export default GameInterface;

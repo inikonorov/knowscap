@@ -7,6 +7,7 @@ import REGIONS from './constants';
 import './style.less';
 
 import Placeholder from './Placeholder';
+import fetch from '../../../helpers/fetch';
 
 class Settings extends React.Component {
 	constructor(props) {
@@ -16,7 +17,7 @@ class Settings extends React.Component {
 		this.onLaunchGame = this.onLaunchGame.bind(this);
 
 		this.state = {
-			region: '',
+			region: REGIONS[0],
 		};
 	}
 
@@ -27,8 +28,7 @@ class Settings extends React.Component {
 	onLaunchGame() {
 		const { region } = this.state;
 
-		fetch(`https://restcountries.eu/rest/v2/region/${region}`)
-			.then((response) => response.json())
+		fetch({ url: `https://restcountries.eu/rest/v2/region/${region}` })
 			.then(this.props.setCountries)
 			.catch(() => {});
 	}

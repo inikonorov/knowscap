@@ -1,8 +1,1 @@
-export default [
-	'Europe',
-	'Asia',
-	'Africa',
-	'North America',
-	'South America',
-	'Australia and Oceania',
-];
+export default ['Europe', 'Asia', 'Africa', 'Americas', 'Oceania'];
