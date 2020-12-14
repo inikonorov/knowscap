@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getRandomInt } from '../../../helpers';
+import getRandomInt from '../../../helpers/getRandomInt';
 
 class GameInterface extends React.Component {
 	constructor(props) {

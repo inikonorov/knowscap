@@ -4,13 +4,16 @@ import ReactDOM from 'react-dom';
 import Map from './components/unique/Map';
 import GameSettings from './components/unique/GameSettings';
 import GameInterface from './components/unique/GameInterface';
+
+import escapeLatinExtendedSymbols from './helpers/escapeLatinExtendedSymbols';
+
 import './style.less';
 
 class App extends React.Component {
 	static mapCountry(country) {
 		return {
-			name: country.name,
-			capital: country.capital,
+			name: escapeLatinExtendedSymbols(country.name),
+			capital: escapeLatinExtendedSymbols(country.capital),
 			code: country.alpha3Code,
 		};
 	}
