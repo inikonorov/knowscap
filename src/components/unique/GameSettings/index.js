@@ -2,12 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FadeIn from 'react-fade-in';
 
+import Placeholder from './Placeholder';
+
+import Button from '../../shared/Button';
+import Select from '../../shared/Select';
+
 import REGIONS from './constants';
 
-import './style.less';
-
-import Placeholder from './Placeholder';
 import fetch from '../../../helpers/fetch';
+
+import './style.less';
 
 class Settings extends React.Component {
 	constructor(props) {
@@ -43,24 +47,15 @@ class Settings extends React.Component {
 
 		return (
 			<FadeIn>
-				<div className="settings">
-					<label className="settings__region-select">
-						Choose region
-						<select value={region} onChange={this.onChooseRegion}>
-							{REGIONS.map((REGION) => (
-								<option key={REGION} value={REGION}>
-									{REGION}
-								</option>
-							))}
-						</select>
-					</label>
-					<button
-						className="settings__start-button"
-						type="button"
-						onClick={this.onLaunchGame}
-					>
-						Let&#39;s go!
-					</button>
+				<div className="game settings">
+					<Select
+						className="settings__select"
+						label="Choose region"
+						value={region}
+						options={REGIONS}
+						onChange={this.onChooseRegion}
+					/>
+					<Button onClick={this.onLaunchGame}>Let&#39;s go!</Button>
 				</div>
 			</FadeIn>
 		);

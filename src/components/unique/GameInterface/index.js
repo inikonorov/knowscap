@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Button from '../../shared/Button';
+import Input from '../../shared/Input';
+
 import getRandomInt from '../../../helpers/getRandomInt';
+
+import './style.less';
 
 class GameInterface extends React.Component {
 	constructor(props) {
@@ -9,7 +14,7 @@ class GameInterface extends React.Component {
 
 		this.onChangeCapital = this.onChangeCapital.bind(this);
 		this.onConfirmCapital = this.onConfirmCapital.bind(this);
-		this.onGetNextCountry = this.onGetNextCountry.bind(this);
+		this.onCalculateNextCountry = this.onCalculateNextCountry.bind(this);
 
 		this.state = {
 			enteredCapital: '',
@@ -20,7 +25,7 @@ class GameInterface extends React.Component {
 	}
 
 	componentDidMount() {
-		this.onGetNextCountry();
+		this.onCalculateNextCountry();
 	}
 
 	onChangeCapital({ target }) {
@@ -39,7 +44,7 @@ class GameInterface extends React.Component {
 		}
 	}
 
-	onGetNextCountry() {
+	onCalculateNextCountry() {
 		this.setState({
 			isEnteredCapitalCorrect: false,
 			enteredCapital: '',
@@ -72,18 +77,23 @@ class GameInterface extends React.Component {
 		} = this.state;
 
 		return (
-			<div className="settings">
-				<span>{currentCountry.name}</span>
-				<input type="text" value={enteredCapital} onChange={this.onChangeCapital} />
-				<button type="button" onClick={this.onConfirmCapital}>
-					Check
-				</button>
+			<div className="game interface">
+				{!isEnteredCapitalCorrect && (
+					<>
+						<Input
+							className="interface__input"
+							label={currentCountry.name}
+							value={enteredCapital}
+							placeholder="Capital is..."
+							onChange={this.onChangeCapital}
+						/>
+						<Button onClick={this.onConfirmCapital}>Check</Button>
+					</>
+				)}
 				{isEnteredCapitalCorrect && (
 					<>
 						<span>Capital is correct!</span>
-						<button type="button" onClick={this.onGetNextCountry}>
-							Next
-						</button>
+						<Button onClick={this.onCalculateNextCountry}>Continue</Button>
 					</>
 				)}
 			</div>

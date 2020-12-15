@@ -1,10 +1,9 @@
 import React from 'react';
-
 import ContentLoader from 'react-content-loader';
 
 export default () => (
 	<ContentLoader
-		className="settings"
+		className="game"
 		speed={2}
 		viewBox="0 0 287 100"
 		backgroundColor="#f3f3f3"
