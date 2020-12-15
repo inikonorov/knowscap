@@ -92,7 +92,7 @@ class GameInterface extends React.Component {
 				)}
 				{isEnteredCapitalCorrect && (
 					<>
-						<span>Capital is correct!</span>
+						<span className="interface__success-text">Capital is correct!</span>
 						<Button onClick={this.onCalculateNextCountry}>Continue</Button>
 					</>
 				)}
