@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import FadeIn from 'react-fade-in';
+
+import { setRegion, getCountries } from '../../../actions';
 
 import Placeholder from './Placeholder';
 
@@ -8,8 +11,6 @@ import Button from '../../shared/Button';
 import Select from '../../shared/Select';
 
 import REGIONS from './constants';
-
-import fetch from '../../../helpers/fetch';
 
 import './style.less';
 
@@ -19,29 +20,22 @@ class Settings extends React.Component {
 
 		this.onChooseRegion = this.onChooseRegion.bind(this);
 		this.onLaunchGame = this.onLaunchGame.bind(this);
-
-		this.state = {
-			region: REGIONS[0],
-		};
 	}
 
 	onChooseRegion({ target }) {
-		this.setState({ region: target.value });
+		this.props.setRegion(target.value);
 	}
 
 	onLaunchGame() {
-		const { region } = this.state;
+		const { region } = this.props;
 
-		fetch({ url: `https://restcountries.eu/rest/v2/region/${region}` })
-			.then(this.props.setCountries)
-			.catch(() => {});
+		this.props.getCountries(region);
 	}
 
 	render() {
-		const { isLoading } = this.props;
-		const { region } = this.state;
+		const { isMapLoaded, region } = this.props;
 
-		if (isLoading) {
+		if (!isMapLoaded) {
 			return <Placeholder />;
 		}
 
@@ -63,8 +57,20 @@ class Settings extends React.Component {
 }
 
 Settings.propTypes = {
-	isLoading: PropTypes.bool.isRequired,
-	setCountries: PropTypes.func.isRequired,
+	isMapLoaded: PropTypes.bool.isRequired,
+	getCountries: PropTypes.func.isRequired,
+	setRegion: PropTypes.func.isRequired,
+	region: PropTypes.string.isRequired,
 };
 
-export default Settings;
+const mapStateToProps = (state) => ({
+	isMapLoaded: state.isMapLoaded,
+	region: state.region,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+	getCountries: (data) => dispatch(getCountries(data)),
+	setRegion: (data) => dispatch(setRegion(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

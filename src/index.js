@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import { connect, Provider } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import store from './store';
 
@@ -8,61 +9,34 @@ import Map from './components/unique/Map';
 import GameSettings from './components/unique/GameSettings';
 import GameInterface from './components/unique/GameInterface';
 
-import escapeLatinExtendedSymbols from './helpers/escapeLatinExtendedSymbols';
-
 import './style.less';
 
-class App extends React.Component {
-	static mapCountry(country) {
-		return {
-			name: escapeLatinExtendedSymbols(country.name),
-			capital: escapeLatinExtendedSymbols(country.capital),
-			code: country.alpha3Code,
-		};
-	}
+const App = (props) => {
+	const { isGameLaunched } = props;
 
-	constructor(props) {
-		super(props);
+	return (
+		<>
+			<Map center={{ lat: 59.95, lng: 30.33 }} zoom={5} />
+			{!isGameLaunched && <GameSettings />}
+			{isGameLaunched && <GameInterface />}
+		</>
+	);
+};
 
-		this.onMapLoad = this.onMapLoad.bind(this);
-		this.setCountries = this.setCountries.bind(this);
+const mapStateToProps = (state) => ({
+	isGameLaunched: state.isGameLaunched,
+	countries: state.countries,
+});
 
-		this.state = {
-			isMapLoading: true,
-			isGameLaunched: false,
-			countries: [],
-		};
-	}
+App.propTypes = {
+	isGameLaunched: PropTypes.bool.isRequired,
+};
 
-	onMapLoad() {
-		setTimeout(() => this.setState({ isMapLoading: false }), 1500);
-	}
-
-	setCountries(countries) {
-		this.setState({
-			isGameLaunched: true,
-			countries: countries.map(App.mapCountry),
-		});
-	}
-
-	render() {
-		const { isMapLoading, isGameLaunched, countries } = this.state;
-
-		return (
-			<>
-				<Map center={{ lat: 59.95, lng: 30.33 }} zoom={5} onLoad={this.onMapLoad} />
-				{!isGameLaunched && (
-					<GameSettings isLoading={isMapLoading} setCountries={this.setCountries} />
-				)}
-				{isGameLaunched && <GameInterface countries={countries} />}
-			</>
-		);
-	}
-}
+const ConnectedApp = connect(mapStateToProps, null)(App);
 
 ReactDOM.render(
 	<Provider store={store}>
-		<App />
+		<ConnectedApp />
 	</Provider>,
 	document.getElementById('app')
 );

@@ -1,5 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { string } from 'prop-types';
+import { connect } from 'react-redux';
+
+import {
+	addCompletedCountryCode,
+	getNextCountry,
+	setEnteredCapital,
+	setIsEnteredCapitalCorrect,
+} from '../../../actions';
 
 import Button from '../../shared/Button';
 import Input from '../../shared/Input';
@@ -9,56 +17,46 @@ import getRandomInt from '../../../helpers/getRandomInt';
 import './style.less';
 
 class GameInterface extends React.Component {
+	static filterCountry(completedCountriesCode) {
+		return ({ code }) => !completedCountriesCode.includes(code);
+	}
+
 	constructor(props) {
 		super(props);
 
 		this.onChangeCapital = this.onChangeCapital.bind(this);
 		this.onConfirmCapital = this.onConfirmCapital.bind(this);
-		this.onCalculateNextCountry = this.onCalculateNextCountry.bind(this);
-
-		this.state = {
-			enteredCapital: '',
-			isEnteredCapitalCorrect: false,
-			completedCountries: [],
-			currentCountry: {},
-		};
+		this.onGetNextCountry = this.onGetNextCountry.bind(this);
 	}
 
 	componentDidMount() {
-		this.onCalculateNextCountry();
+		this.onGetNextCountry();
 	}
 
 	onChangeCapital({ target }) {
-		this.setState({ enteredCapital: target.value });
+		this.props.setEnteredCapital(target.value);
 	}
 
 	onConfirmCapital() {
-		const { enteredCapital, currentCountry, completedCountries } = this.state;
+		const { enteredCapital, currentCountry } = this.props;
 
 		if (enteredCapital === currentCountry.capital) {
-			this.setState({
-				isEnteredCapitalCorrect: true,
-				currentCountry: {},
-				completedCountries: [...completedCountries, currentCountry.code],
-			});
+			this.props.setIsEnteredCapitalCorrect(true);
+			this.props.addCompletedCountryCode(currentCountry.code);
 		}
 	}
 
-	onCalculateNextCountry() {
-		this.setState({
-			isEnteredCapitalCorrect: false,
-			enteredCapital: '',
-			currentCountry: this.getRandomCountry(),
-		});
+	onGetNextCountry() {
+		this.props.setIsEnteredCapitalCorrect(false);
+		this.props.setEnteredCapital();
+		this.props.getNextCountry(this.getRandomCountry());
 	}
 
 	getRandomCountry() {
-		const { countries } = this.props;
-
-		const { completedCountries } = this.state;
+		const { countries, completedCountriesCode } = this.props;
 
 		const remainingCountries = countries.filter(
-			(country) => !completedCountries.includes(country.code)
+			GameInterface.filterCountry(completedCountriesCode)
 		);
 
 		const countryIndex = getRandomInt({
@@ -74,7 +72,7 @@ class GameInterface extends React.Component {
 			enteredCapital,
 			isEnteredCapitalCorrect,
 			currentCountry,
-		} = this.state;
+		} = this.props;
 
 		return (
 			<div className="game interface">
@@ -93,7 +91,7 @@ class GameInterface extends React.Component {
 				{isEnteredCapitalCorrect && (
 					<>
 						<span className="interface__success-text">Capital is correct!</span>
-						<Button onClick={this.onCalculateNextCountry}>Continue</Button>
+						<Button onClick={this.onGetNextCountry}>Continue</Button>
 					</>
 				)}
 			</div>
@@ -103,6 +101,34 @@ class GameInterface extends React.Component {
 
 GameInterface.propTypes = {
 	countries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+	enteredCapital: PropTypes.string.isRequired,
+	isEnteredCapitalCorrect: PropTypes.bool.isRequired,
+	currentCountry: PropTypes.shape({
+		name: string,
+		code: string,
+		capital: string,
+	}).isRequired,
+	completedCountriesCode: PropTypes.arrayOf(string).isRequired,
+	setEnteredCapital: PropTypes.func.isRequired,
+	getNextCountry: PropTypes.func.isRequired,
+	addCompletedCountryCode: PropTypes.func.isRequired,
+	setIsEnteredCapitalCorrect: PropTypes.func.isRequired,
 };
 
-export default GameInterface;
+const mapStateToProps = (state) => ({
+	enteredCapital: state.enteredCapital,
+	isEnteredCapitalCorrect: state.isEnteredCapitalCorrect,
+	currentCountry: state.currentCountry,
+	countries: state.countries,
+	completedCountriesCode: state.completedCountriesCode,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+	getNextCountry: (data) => dispatch(getNextCountry(data)),
+	setEnteredCapital: (data) => dispatch(setEnteredCapital(data)),
+	setIsEnteredCapitalCorrect: (data) =>
+		dispatch(setIsEnteredCapitalCorrect(data)),
+	addCompletedCountryCode: (data) => dispatch(addCompletedCountryCode(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameInterface);

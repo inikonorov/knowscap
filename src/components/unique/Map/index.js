@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GoogleMapReact from 'google-map-react';
+import { connect } from 'react-redux';
+
+import { setIsMapLoaded } from '../../../actions';
 
 const Map = (props) => {
 	const { center, zoom } = props;
@@ -10,7 +13,7 @@ const Map = (props) => {
 			bootstrapURLKeys={{ key: process.env.GMAPS_API_KEY }}
 			defaultCenter={center}
 			defaultZoom={zoom}
-			onTilesLoaded={props.onLoad}
+			onTilesLoaded={props.setIsMapLoaded}
 		/>
 	);
 };
@@ -18,7 +21,11 @@ const Map = (props) => {
 Map.propTypes = {
 	center: PropTypes.shape({}).isRequired,
 	zoom: PropTypes.number.isRequired,
-	onLoad: PropTypes.func.isRequired,
+	setIsMapLoaded: PropTypes.func.isRequired,
 };
 
-export default Map;
+const mapDispatchToProps = (dispatch) => ({
+	setIsMapLoaded: () => dispatch(setIsMapLoaded()),
+});
+
+export default connect(null, mapDispatchToProps)(Map);
