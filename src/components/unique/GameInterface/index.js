@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes, { string } from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
@@ -98,22 +97,6 @@ class GameInterface extends React.Component {
 		);
 	}
 }
-
-GameInterface.propTypes = {
-	countries: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-	enteredCapital: PropTypes.string.isRequired,
-	isEnteredCapitalCorrect: PropTypes.bool.isRequired,
-	currentCountry: PropTypes.shape({
-		name: string,
-		code: string,
-		capital: string,
-	}).isRequired,
-	completedCountriesCode: PropTypes.arrayOf(string).isRequired,
-	setEnteredCapital: PropTypes.func.isRequired,
-	getNextCountry: PropTypes.func.isRequired,
-	addCompletedCountryCode: PropTypes.func.isRequired,
-	setIsEnteredCapitalCorrect: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = (state) => ({
 	enteredCapital: state.enteredCapital,
