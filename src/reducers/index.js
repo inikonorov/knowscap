@@ -7,6 +7,7 @@ import {
 	SET_IS_ENTERED_CAPITAL_CORRECT,
 	SET_IS_GAME_LAUNCHED,
 	SET_IS_MAP_LOADED,
+	SET_REGION,
 	GET_NEXT_COUNTRY,
 } from '../actions';
 
@@ -32,6 +33,12 @@ export default (state = initialState, action) => {
 				...state,
 				isMapLoaded: true,
 			};
+		case SET_REGION: {
+			return {
+				...state,
+				region: action.payload,
+			};
+		}
 		case SET_IS_GAME_LAUNCHED:
 			return {
 				...state,
