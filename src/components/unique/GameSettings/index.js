@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FadeIn from 'react-fade-in';
+import classNames from 'classnames';
 
 import { setRegion, getCountries } from '../../../actions';
 
@@ -35,13 +35,14 @@ class Settings extends React.Component {
 	render() {
 		const { isMapLoaded, region } = this.props;
 
-		if (!isMapLoaded) {
-			return <Placeholder />;
-		}
-
 		return (
 			<FadeIn>
-				<div className="game settings">
+				{!isMapLoaded && <Placeholder />}
+				<div
+					className={classNames('game', 'settings', {
+						'visually-hidden': !isMapLoaded,
+					})}
+				>
 					<Select
 						className="settings__select"
 						label="Choose region"
@@ -55,13 +56,6 @@ class Settings extends React.Component {
 		);
 	}
 }
-
-Settings.propTypes = {
-	isMapLoaded: PropTypes.bool.isRequired,
-	getCountries: PropTypes.func.isRequired,
-	setRegion: PropTypes.func.isRequired,
-	region: PropTypes.string.isRequired,
-};
 
 const mapStateToProps = (state) => ({
 	isMapLoaded: state.isMapLoaded,
