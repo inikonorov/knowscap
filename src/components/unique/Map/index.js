@@ -1,28 +1,39 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import GoogleMapReact from 'google-map-react';
+import mapboxgl from 'mapbox-gl';
 import { connect } from 'react-redux';
 
 import { setIsMapLoaded } from '../../../actions';
 
-const Map = (props) => {
-	const { center, zoom } = props;
+mapboxgl.accessToken = process.env.MAPBOX_API_KEY;
 
-	return (
-		<GoogleMapReact
-			bootstrapURLKeys={{ key: process.env.GMAPS_API_KEY }}
-			defaultCenter={center}
-			defaultZoom={zoom}
-			onTilesLoaded={props.setIsMapLoaded}
-		/>
-	);
-};
+class Map extends React.Component {
+	constructor(props) {
+		super(props);
 
-Map.propTypes = {
-	center: PropTypes.shape({}).isRequired,
-	zoom: PropTypes.number.isRequired,
-	setIsMapLoaded: PropTypes.func.isRequired,
-};
+		this.map = null;
+	}
+
+	componentDidMount() {
+		const { center, zoom } = this.props;
+
+		const map = new mapboxgl.Map({
+			container: this.map,
+			style: 'mapbox://styles/mapbox/streets-v11',
+			center,
+			zoom,
+		});
+
+		map.on('idle', this.props.setIsMapLoaded);
+	}
+
+	render() {
+		return (
+			<div>
+				<div ref={(el) => (this.map = el)} className="map" />
+			</div>
+		);
+	}
+}
 
 const mapDispatchToProps = (dispatch) => ({
 	setIsMapLoaded: () => dispatch(setIsMapLoaded()),

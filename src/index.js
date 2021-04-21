@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect, Provider } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import store from './store';
 
@@ -16,7 +15,7 @@ const App = (props) => {
 
 	return (
 		<>
-			<Map center={{ lat: 59.95, lng: 30.33 }} zoom={5} />
+			<Map center={[30.33, 59.95]} zoom={2} />
 			{!isGameLaunched && <GameSettings />}
 			{isGameLaunched && <GameInterface />}
 		</>
@@ -27,10 +26,6 @@ const mapStateToProps = (state) => ({
 	isGameLaunched: state.isGameLaunched,
 	countries: state.countries,
 });
-
-App.propTypes = {
-	isGameLaunched: PropTypes.bool.isRequired,
-};
 
 const ConnectedApp = connect(mapStateToProps, null)(App);
 
