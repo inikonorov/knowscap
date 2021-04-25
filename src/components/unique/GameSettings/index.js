@@ -33,7 +33,7 @@ class Settings extends React.Component {
 	}
 
 	render() {
-		const { isMapLoaded, region } = this.props;
+		const { isMapLoaded, region, areCountriesLoading } = this.props;
 
 		return (
 			<FadeIn>
@@ -50,7 +50,9 @@ class Settings extends React.Component {
 						options={REGIONS}
 						onChange={this.onChooseRegion}
 					/>
-					<Button onClick={this.onLaunchGame}>Let&#39;s go!</Button>
+					<Button isLoading={areCountriesLoading} onClick={this.onLaunchGame}>
+						Let&#39;s go!
+					</Button>
 				</div>
 			</FadeIn>
 		);
@@ -60,6 +62,7 @@ class Settings extends React.Component {
 const mapStateToProps = (state) => ({
 	isMapLoaded: state.isMapLoaded,
 	region: state.region,
+	areCountriesLoading: state.areCountriesLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
