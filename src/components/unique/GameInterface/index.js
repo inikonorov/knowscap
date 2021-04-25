@@ -51,6 +51,7 @@ class GameInterface extends React.Component {
 		this.props.getNextCountry(this.getRandomCountry());
 	}
 
+	// TODO: вынести всю логику в thunk
 	getRandomCountry() {
 		const { countries, completedCountriesCode } = this.props;
 
@@ -89,7 +90,7 @@ class GameInterface extends React.Component {
 				)}
 				{isEnteredCapitalCorrect && (
 					<>
-						<span className="interface__success-text">Capital is correct!</span>
+						<span className="interface__success-text">Correct! ✅</span>
 						<Button onClick={this.onGetNextCountry}>Continue</Button>
 					</>
 				)}
