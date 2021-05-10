@@ -1,6 +1,7 @@
 import React from 'react';
 import mapboxgl from 'mapbox-gl';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import { setIsMapLoaded } from '../../../actions';
 
@@ -18,7 +19,7 @@ class Map extends React.Component {
 
 		this.map = new mapboxgl.Map({
 			container: this.mapContainer,
-			style: 'mapbox://styles/mapbox/light-v10',
+			style: 'mapbox://styles/inikonorov/cknyzqutr4e4917oavqf46pzp',
 			center,
 			zoom,
 			logoPosition: 'bottom-right',
@@ -58,10 +59,13 @@ class Map extends React.Component {
 	componentDidUpdate(props) {
 		const { currentCountry } = this.props;
 
-		if (currentCountry.name !== props.currentCountry.name) {
-			this.map.flyTo({
-				center: currentCountry.latlng,
-				zoom: 6,
+		if (currentCountry.bbox
+			&& currentCountry.bbox !== props.currentCountry.bbox
+		) {
+			this.map.fitBounds(currentCountry.bbox, {
+				easing(t) {
+					return 1 - (1 - t) * (1 - t);
+				},
 			});
 
 			this.map.setFilter('country-boundaries', [
@@ -73,9 +77,14 @@ class Map extends React.Component {
 	}
 
 	render() {
+		const { isMapLoaded } = this.props;
+
 		return (
 			<div>
-				<div ref={(el) => (this.mapContainer = el)} className="map" />
+				<div
+					ref={(el) => (this.mapContainer = el)}
+					className={classNames('map', { invisible: !isMapLoaded })}
+				/>
 			</div>
 		);
 	}
@@ -83,6 +92,7 @@ class Map extends React.Component {
 
 const mapStateToProps = (state) => ({
 	currentCountry: state.currentCountry,
+	isMapLoaded: state.isMapLoaded,
 });
 
 const mapDispatchToProps = (dispatch) => ({

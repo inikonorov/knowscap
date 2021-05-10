@@ -11,15 +11,9 @@ import {
 import Button from '../../shared/Button';
 import Input from '../../shared/Input';
 
-import getRandomInt from '../../../helpers/getRandomInt';
-
 import './style.less';
 
 class GameInterface extends React.Component {
-	static filterCountry(completedCountriesCode) {
-		return ({ code }) => !completedCountriesCode.includes(code);
-	}
-
 	constructor(props) {
 		super(props);
 
@@ -39,6 +33,7 @@ class GameInterface extends React.Component {
 	onConfirmCapital() {
 		const { enteredCapital, currentCountry } = this.props;
 
+		// TODO: доработать кейс с неправильным вводом столицы
 		if (enteredCapital === currentCountry.capital) {
 			this.props.setIsEnteredCapitalCorrect(true);
 			this.props.addCompletedCountryCode(currentCountry.code);
@@ -48,23 +43,7 @@ class GameInterface extends React.Component {
 	onGetNextCountry() {
 		this.props.setIsEnteredCapitalCorrect(false);
 		this.props.setEnteredCapital();
-		this.props.getNextCountry(this.getRandomCountry());
-	}
-
-	// TODO: вынести всю логику в thunk
-	getRandomCountry() {
-		const { countries, completedCountriesCode } = this.props;
-
-		const remainingCountries = countries.filter(
-			GameInterface.filterCountry(completedCountriesCode)
-		);
-
-		const countryIndex = getRandomInt({
-			min: 0,
-			max: remainingCountries.length,
-		});
-
-		return countries[countryIndex];
+		this.props.getNextCountry();
 	}
 
 	render() {

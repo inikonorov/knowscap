@@ -8,6 +8,9 @@ import {
 	SET_IS_GAME_LAUNCHED,
 	SET_IS_MAP_LOADED,
 	SET_REGION,
+	GET_COUNTRY_BOUNDS_FAIL,
+	GET_COUNTRY_BOUNDS_REQUEST,
+	GET_COUNTRY_BOUNDS_SUCCESS,
 	GET_NEXT_COUNTRY,
 } from '../actions';
 
@@ -74,6 +77,17 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				currentCountry: action.payload,
+			};
+		case GET_COUNTRY_BOUNDS_REQUEST:
+			return state;
+		case GET_COUNTRY_BOUNDS_FAIL:
+		case GET_COUNTRY_BOUNDS_SUCCESS:
+			return {
+				...state,
+				currentCountry: {
+					...state.currentCountry,
+					...action.payload,
+				},
 			};
 		case ADD_COMPLETED_COUNTRY_CODE:
 			return {
