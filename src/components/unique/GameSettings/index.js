@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import FadeIn from 'react-fade-in';
 import classNames from 'classnames';
 
 import { setRegion, getCountries } from '../../../actions';
-
-import Placeholder from './Placeholder';
 
 import Button from '../../shared/Button';
 import Select from '../../shared/Select';
@@ -36,25 +33,22 @@ class Settings extends React.Component {
 		const { isMapLoaded, region, areCountriesLoading } = this.props;
 
 		return (
-			<FadeIn>
-				{!isMapLoaded && <Placeholder />}
-				<div
-					className={classNames('game', 'settings', {
-						'visually-hidden': !isMapLoaded,
-					})}
-				>
-					<Select
-						className="settings__select"
-						label="Choose region"
-						value={region}
-						options={REGIONS}
-						onChange={this.onChooseRegion}
-					/>
-					<Button isLoading={areCountriesLoading} onClick={this.onLaunchGame}>
-						Let&#39;s go!
-					</Button>
-				</div>
-			</FadeIn>
+			<div
+				className={classNames('game', 'settings', {
+					invisible: !isMapLoaded,
+				})}
+			>
+				<Select
+					className="settings__select"
+					label="Choose region"
+					value={region}
+					options={REGIONS}
+					onChange={this.onChooseRegion}
+				/>
+				<Button isLoading={areCountriesLoading} onClick={this.onLaunchGame}>
+					Let&#39;s go!
+				</Button>
+			</div>
 		);
 	}
 }
