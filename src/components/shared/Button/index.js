@@ -8,7 +8,7 @@ import './style.less';
 const Button = ({ className, children, onClick, isLoading }) => {
 	return (
 		<button
-			className={classNames('button', className)}
+			className={classNames('button', className, { 'button--loading': isLoading })}
 			type="button"
 			onClick={onClick}
 		>

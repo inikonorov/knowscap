@@ -1,16 +1,38 @@
-.select {
+.select {	
 	font-size: 14px;
 	font-family: 'Montserrat', sans-serif;
 	font-weight: 700;
 
+	&-wrapper {
+		position: relative;
+	}
+
+	&-wrapper::after {
+		content: '';
+		
+		position: absolute;
+		right: 10px;
+		top: 50%;
+
+		border-top: 6px solid #6400e4;
+		border-left: 4px solid transparent;
+		border-right: 4px solid transparent;
+
+		width: 0; 
+		height: 0; 
+
+		transform: translateY(-50%);
+	}
+
 	select {
+		appearance: none;
+
 		display: block;
 
 		width: 100%;
 		padding: 10px 10px;
-		border: 1px solid transparent;
+		border: 1px solid #6400e4;
 		border-radius: 2px;
-		border-color: #6400e4;
 
 		font-family: 'Montserrat', sans-serif;
 		font-weight: 400;
